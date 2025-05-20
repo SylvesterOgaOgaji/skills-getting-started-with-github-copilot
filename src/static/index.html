@@ -47,7 +47,7 @@
 
     <script src="app.js"></script>
     <script>
-      // Enhance activity card rendering to include participants
+      // Enhance activity card rendering to include participants and correct availability
       document.addEventListener("DOMContentLoaded", () => {
         fetch("/activities")
           .then(res => res.json())
@@ -55,13 +55,14 @@
             const activitiesList = document.getElementById("activities-list");
             activitiesList.innerHTML = "";
             Object.entries(data).forEach(([name, info]) => {
+              const spotsLeft = info.max_participants - info.participants.length;
               const card = document.createElement("div");
               card.className = "activity-card";
               card.innerHTML = `
                 <h4>${name}</h4>
                 <p>${info.description}</p>
                 <p><strong>Schedule:</strong> ${info.schedule}</p>
-                <p><strong>Max Participants:</strong> ${info.max_participants}</p>
+                <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
                 <div class="participants-section">
                   <strong>Participants:</strong>
                   <ul class="participants-list">
